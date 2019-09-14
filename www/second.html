@@ -4,6 +4,10 @@
 	<title>Doctor</title>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" type="text/css" href="css/stylessecond.css">
+	<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="main">
@@ -19,14 +23,12 @@
 		
 		<button class="export" type="button" style="float: right;">Export</button>
 	</div>
-	
 	<div class="table">
 		<div class="tableheader">
-			<p>239 Doctors in Tucson, Arizona</p>
+			<p>Doctors in Miami</p>
 		</div>
-	
 		<div class="information">
-			<table style="width:100%">
+			<table id="doctors" style="width:100%">
   				<tr>
   				  <th> </th>
   				  <th>Business Type</th> 
@@ -36,15 +38,7 @@
   				  <th>Location</th>
   				  <th>Last Updated</th>
   				</tr>
-  				<tr>
-  				  <td>1</td>
-  				  <td>Doctor</td>
-  				  <td>Available</td>
-  				  <td>Mittleman Myles</td>
-  				  <td>23</td>
-  				  <td>5847 Francis Lewis Blvd # 206, Flushing, NY 11364</td>
-  				  <td>12 hours</td>
-  				</tr>
+  				
 			</table>
 		</div>
 	</div>
@@ -52,3 +46,26 @@
 </div>
 </body>
 </html>
+
+
+<script>
+let docObj = {};
+$.get( "https://cors-anywhere.herokuapp.com/http://ec2-3-19-243-28.us-east-2.compute.amazonaws.com:5000/api/data", function( data ) {
+  data.map((doc, index) => {
+		docObj.name = doc[0].name;
+		docObj.mail = doc[0].email;
+		$("#doctors tr:last").after(`
+			<tr>
+				<td>${++index}</td>
+				<td>Doctor</td>
+				<td>Available</td>
+				<td>${docObj.name}</td>
+				<td>1</td>
+				<td>${docObj.mail}</td>
+				<td>-</td>
+			</tr>
+		`);
+	})
+});
+
+</script>
